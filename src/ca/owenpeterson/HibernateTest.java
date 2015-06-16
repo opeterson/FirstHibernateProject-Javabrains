@@ -32,6 +32,16 @@ public class HibernateTest {
 		session.beginTransaction();
 		session.save(user);
 		session.getTransaction().commit();
+		
+		//put in finally after the catch.
+		session.close();
+		
+		user = null;
+		
+		session = factory.openSession();
+		session.beginTransaction();
+		user = (UserDetails) session.get(UserDetails.class, 1);
+		System.out.println("User name retrieved is: " + user.getUserName());
 	}
 
 }

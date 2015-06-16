@@ -47,6 +47,7 @@
 		<property name="show_sql">true</property>
 		
 		<!-- Drop and re-create the database schema on startup -->
+		<!-- change to 'update' to retain data -->
 		<property name="hbm2ddl.auto">create</property>
 		
 		<!-- Names the annotated entity class -->
