@@ -3,6 +3,8 @@ package ca.owenpeterson.dto;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
@@ -13,7 +15,7 @@ import javax.persistence.TemporalType;
 @Table(name="USER_DETAILS") //just changes the table name, not the entity name.
 public class UserDetails {
 	
-	@Id
+	@Id @GeneratedValue(strategy=GenerationType.AUTO) //ask hibernate to generate this value. Auto generated number by default.
 	//@Column(name="USER_ID")
 	private int userId;
 	
