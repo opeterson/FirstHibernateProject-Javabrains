@@ -1,18 +1,33 @@
 package ca.owenpeterson.dto;
 
-import javax.persistence.Column;
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-@Entity(name="USER_DETAILS")
+@Entity //(name="USER_DETAILS")
+@Table(name="USER_DETAILS") //just changes the table name, not the entity name.
 public class UserDetails {
 	
 	@Id
-	@Column(name="USER_ID")
+	//@Column(name="USER_ID")
 	private int userId;
 	
-	@Column(name="USER_NAME")
+	//@Column(name="USER_NAME")
+	//@Basic //used to make configuration changes without changing the datatype
+	//@Transient // tell hibernate to ignore this field
 	private String userName;
+	
+	@Temporal(TemporalType.DATE) //save only the date, not the time. Check ENUM for more options.
+	private Date joinedDate;
+	private String address;
+	
+	@Lob //large object. 
+	private String description;
 	
 	//annotations can also be placed on the getters
 	public int getUserId() {
@@ -27,6 +42,25 @@ public class UserDetails {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	public Date getJoinedDate() {
+		return joinedDate;
+	}
+	public void setJoinedDate(Date joinedDate) {
+		this.joinedDate = joinedDate;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 	
 	
 	
