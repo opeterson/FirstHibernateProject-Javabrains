@@ -1,12 +1,21 @@
 package ca.owenpeterson.dto;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable //tells hibernate that this class needs to be embedded in another table
 public class Address {
+	
+	@Column(name="STREET_NAME")
 	private String street;
+	
+	@Column(name="CITY_NAME")
 	private String city;
+	
+	@Column(name="STATE_NAME")
 	private String state;
+	
+	@Column(name="PIN_CODE")
 	private String pincode;
 	
 	public String getStreet() {

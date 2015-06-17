@@ -2,6 +2,9 @@ package ca.owenpeterson.dto;
 
 import java.util.Date;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +20,7 @@ public class UserDetails {
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO) //ask hibernate to generate this value. Auto generated number by default.
 	//@Column(name="USER_ID")
+	//@EmbeddedId //embedded object as primary key
 	private int userId;
 	
 	//@Column(name="USER_NAME")
@@ -31,7 +35,15 @@ public class UserDetails {
 	private String description;
 	
 	@Embedded
-	private Address address;
+	@AttributeOverrides({
+		@AttributeOverride(name="street", column=@Column(name="HOME_STREET_NAME")),
+		@AttributeOverride(name="city", column=@Column(name="HOME_CITY_NAME")),
+		@AttributeOverride(name="state", column=@Column(name="HOME_STATE_NAME")),
+		@AttributeOverride(name="pincode", column=@Column(name="HOME_PIN_CODE"))}) //prevents overlap of column names between objects
+	private Address officeAddress;
+	
+	@Embedded
+	private Address homeAddress;
 	
 	//annotations can also be placed on the getters
 	public int getUserId() {
@@ -59,13 +71,20 @@ public class UserDetails {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public Address getOfficeAddress() {
+		return officeAddress;
+	}
+	public void setOfficeAddress(Address officeAddress) {
+		this.officeAddress = officeAddress;
+	}
+	public Address getHomeAddress() {
+		return homeAddress;
+	}
+	public void setHomeAddress(Address homeAddress) {
+		this.homeAddress = homeAddress;
+	}
+
 	
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-	public Address getAddress() {
-		return address;
-	}
 	
 	
 	

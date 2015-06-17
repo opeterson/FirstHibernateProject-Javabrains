@@ -24,7 +24,14 @@ public class HibernateTest {
 		addr.setCity("Winnipeg");
 		addr.setState("MB");
 		addr.setPincode("R2M1A3");
-		user.setAddress(addr);
+		user.setHomeAddress(addr);
+		
+		Address addr2 = new Address();
+		addr2.setStreet("Second Street");
+		addr2.setCity("Second City");
+		addr2.setState("Second State");
+		addr2.setPincode("Second Pincode");
+		user.setOfficeAddress(addr2);
 		
 		//required for Hibernate 4 (differs from tutorial);
 		//tutorial mentions that a try catch should be used and do a rollback in the catch.
