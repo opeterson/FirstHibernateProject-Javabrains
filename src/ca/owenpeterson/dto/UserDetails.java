@@ -2,11 +2,11 @@ package ca.owenpeterson.dto;
 
 import java.util.Date;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,10 +26,12 @@ public class UserDetails {
 	
 	@Temporal(TemporalType.DATE) //save only the date, not the time. Check ENUM for more options.
 	private Date joinedDate;
-	private String address;
 	
-	@Lob //large object. 
+	//@Lob //large object. 
 	private String description;
+	
+	@Embedded
+	private Address address;
 	
 	//annotations can also be placed on the getters
 	public int getUserId() {
@@ -50,18 +52,22 @@ public class UserDetails {
 	public void setJoinedDate(Date joinedDate) {
 		this.joinedDate = joinedDate;
 	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
+		
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	public Address getAddress() {
+		return address;
+	}
+	
+	
 	
 	
 	
