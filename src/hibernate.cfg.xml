@@ -52,5 +52,6 @@
 		
 		<!-- Names the annotated entity class -->
 		<mapping class="ca.owenpeterson.dto.UserDetails"/>
+		<mapping class="ca.owenpeterson.dto.Vehicle"/>
 	</session-factory>
 </hibernate-configuration>

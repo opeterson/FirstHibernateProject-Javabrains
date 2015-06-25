@@ -5,35 +5,38 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
-import ca.owenpeterson.dto.Address;
 import ca.owenpeterson.dto.UserDetails;
+import ca.owenpeterson.dto.Vehicle;
 
 public class HibernateTest {
 
 	public static void main(String[] args) {
 		UserDetails user = new UserDetails();
+		Vehicle vehicle = new Vehicle();
+		vehicle.setVehicleName("Car");
 		
 		//user.setUserId(1);
 		user.setUserName("First User");
+		user.setVehicle(vehicle);
 		//user.setJoinedDate(new Date());
 		//user.setDescription("Description of first user goes here");
 		
-		Address addr = new Address();
-		addr.setStreet("123 Fake Street");
-		addr.setCity("Winnipeg");
-		addr.setState("MB");
-		addr.setPincode("R2M1A3");
-		//user.setHomeAddress(addr);
-		
-		Address addr2 = new Address();
-		addr2.setStreet("Second Street");
-		addr2.setCity("Second City");
-		addr2.setState("Second State");
-		addr2.setPincode("Second Pincode");
-		//user.setOfficeAddress(addr2);
-		
-		user.getListOfAddresses().add(addr);
-		user.getListOfAddresses().add(addr2);
+//		Address addr = new Address();
+//		addr.setStreet("123 Fake Street");
+//		addr.setCity("Winnipeg");
+//		addr.setState("MB");
+//		addr.setPincode("R2M1A3");
+//		//user.setHomeAddress(addr);
+//		
+//		Address addr2 = new Address();
+//		addr2.setStreet("Second Street");
+//		addr2.setCity("Second City");
+//		addr2.setState("Second State");
+//		addr2.setPincode("Second Pincode");
+//		//user.setOfficeAddress(addr2);
+//		
+//		user.getListOfAddresses().add(addr);
+//		user.getListOfAddresses().add(addr2);
 		
 		//required for Hibernate 4 (differs from tutorial);
 		//tutorial mentions that a try catch should be used and do a rollback in the catch.
@@ -45,6 +48,7 @@ public class HibernateTest {
 		Session session = factory.openSession();
 		
 		session.beginTransaction();
+		session.save(vehicle);
 		session.save(user);
 		session.getTransaction().commit();
 		
@@ -57,7 +61,7 @@ public class HibernateTest {
 		user = (UserDetails) session.get(UserDetails.class, 1);
 		session.close(); //prevent the proxy object form getting the addresses. Should result in LazyInitializationException
 		
-		System.out.println(user.getListOfAddresses().size()); //hibernate only now populates the user with it's list of addresses. Lazy Initialization.
+		//System.out.println(user.getListOfAddresses().size()); //hibernate only now populates the user with it's list of addresses. Lazy Initialization.
 		//System.out.println("User name retrieved is: " + user.getUserName());
 		//session.getTransaction().commit();
 		//session.close();
