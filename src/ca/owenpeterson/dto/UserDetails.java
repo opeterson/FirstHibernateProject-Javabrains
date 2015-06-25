@@ -1,17 +1,24 @@
 package ca.owenpeterson.dto;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 @Entity //(name="USER_DETAILS")
 @Table(name="USER_DETAILS") //just changes the table name, not the entity name.
@@ -28,7 +35,10 @@ public class UserDetails {
 	private String userName;
 	
 	@ElementCollection //marks this object to be persisted. 
-	private Set<Address> listOfAddresses = new HashSet<Address>();
+	@JoinTable(name="USER_ADDRESS", joinColumns=@JoinColumn(name="USER_ID")) //change the name of the associated table as well as the primary key column name.
+	@GenericGenerator(name="hilo-gen", strategy="hilo") //common generator type
+	@CollectionId(columns = { @Column(name="ADDRESS_ID") }, generator = "hilo-gen", type = @Type(type="long")) //creates the address_id column as a primary key and uses a long value
+	private Collection<Address> listOfAddresses = new ArrayList<Address>(); //has to be an interface that supports indexes
 	
 	@Temporal(TemporalType.DATE) //save only the date, not the time. Check ENUM for more options.
 	private Date joinedDate;
@@ -79,10 +89,10 @@ public class UserDetails {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Set<Address> getListOfAddresses() {
+	public Collection<Address> getListOfAddresses() {
 		return listOfAddresses;
 	}
-	public void setListOfAddresses(Set<Address> listOfAddresses) {
+	public void setListOfAddresses(Collection<Address> listOfAddresses) {
 		this.listOfAddresses = listOfAddresses;
 	}
 	
