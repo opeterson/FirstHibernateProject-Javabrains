@@ -52,13 +52,15 @@ public class HibernateTest {
 		session.close();
 		
 		user = null;
-		
 		session = factory.openSession();
-		session.beginTransaction();
+		//session.beginTransaction();
 		user = (UserDetails) session.get(UserDetails.class, 1);
-		System.out.println("User name retrieved is: " + user.getUserName());
-		session.getTransaction().commit();
-		session.close();
+		session.close(); //prevent the proxy object form getting the addresses. Should result in LazyInitializationException
+		
+		System.out.println(user.getListOfAddresses().size()); //hibernate only now populates the user with it's list of addresses. Lazy Initialization.
+		//System.out.println("User name retrieved is: " + user.getUserName());
+		//session.getTransaction().commit();
+		//session.close();
 	}
 
 }
