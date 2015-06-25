@@ -1,7 +1,5 @@
 package ca.owenpeterson;
 
-import java.util.Date;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -17,21 +15,25 @@ public class HibernateTest {
 		
 		//user.setUserId(1);
 		user.setUserName("First User");
-		user.setJoinedDate(new Date());
-		user.setDescription("Description of first user goes here");
+		//user.setJoinedDate(new Date());
+		//user.setDescription("Description of first user goes here");
+		
 		Address addr = new Address();
 		addr.setStreet("123 Fake Street");
 		addr.setCity("Winnipeg");
 		addr.setState("MB");
 		addr.setPincode("R2M1A3");
-		user.setHomeAddress(addr);
+		//user.setHomeAddress(addr);
 		
 		Address addr2 = new Address();
 		addr2.setStreet("Second Street");
 		addr2.setCity("Second City");
 		addr2.setState("Second State");
 		addr2.setPincode("Second Pincode");
-		user.setOfficeAddress(addr2);
+		//user.setOfficeAddress(addr2);
+		
+		user.getListOfAddresses().add(addr);
+		user.getListOfAddresses().add(addr2);
 		
 		//required for Hibernate 4 (differs from tutorial);
 		//tutorial mentions that a try catch should be used and do a rollback in the catch.

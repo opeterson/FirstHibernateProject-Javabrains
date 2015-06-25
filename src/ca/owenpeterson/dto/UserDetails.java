@@ -1,11 +1,10 @@
 package ca.owenpeterson.dto;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,22 +27,31 @@ public class UserDetails {
 	//@Transient // tell hibernate to ignore this field
 	private String userName;
 	
+	@ElementCollection //marks this object to be persisted. 
+	private Set<Address> listOfAddresses = new HashSet<Address>();
+	
 	@Temporal(TemporalType.DATE) //save only the date, not the time. Check ENUM for more options.
 	private Date joinedDate;
 	
 	//@Lob //large object. 
 	private String description;
 	
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name="street", column=@Column(name="HOME_STREET_NAME")),
-		@AttributeOverride(name="city", column=@Column(name="HOME_CITY_NAME")),
-		@AttributeOverride(name="state", column=@Column(name="HOME_STATE_NAME")),
-		@AttributeOverride(name="pincode", column=@Column(name="HOME_PIN_CODE"))}) //prevents overlap of column names between objects
-	private Address officeAddress;
+	/**
+	 * An example of embedding an object in a table.
+	 */
+//	@Embedded
+//	@AttributeOverrides({
+//		@AttributeOverride(name="street", column=@Column(name="HOME_STREET_NAME")),
+//		@AttributeOverride(name="city", column=@Column(name="HOME_CITY_NAME")),
+//		@AttributeOverride(name="state", column=@Column(name="HOME_STATE_NAME")),
+//		@AttributeOverride(name="pincode", column=@Column(name="HOME_PIN_CODE"))}) //prevents overlap of column names between objects
+//	private Address officeAddress;
 	
-	@Embedded
-	private Address homeAddress;
+	/**
+	 * Embedding an object in a table without renaming the columns.
+	 */
+	//@Embedded
+	//private Address homeAddress;
 	
 	//annotations can also be placed on the getters
 	public int getUserId() {
@@ -71,18 +79,27 @@ public class UserDetails {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Address getOfficeAddress() {
-		return officeAddress;
+	public Set<Address> getListOfAddresses() {
+		return listOfAddresses;
 	}
-	public void setOfficeAddress(Address officeAddress) {
-		this.officeAddress = officeAddress;
+	public void setListOfAddresses(Set<Address> listOfAddresses) {
+		this.listOfAddresses = listOfAddresses;
 	}
-	public Address getHomeAddress() {
-		return homeAddress;
-	}
-	public void setHomeAddress(Address homeAddress) {
-		this.homeAddress = homeAddress;
-	}
+	
+	
+	
+//	public Address getOfficeAddress() {
+//		return officeAddress;
+//	}
+//	public void setOfficeAddress(Address officeAddress) {
+//		this.officeAddress = officeAddress;
+//	}
+//	public Address getHomeAddress() {
+//		return homeAddress;
+//	}
+//	public void setHomeAddress(Address homeAddress) {
+//		this.homeAddress = homeAddress;
+//	}
 
 	
 	
